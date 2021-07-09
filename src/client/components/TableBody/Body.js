@@ -23,8 +23,8 @@ const Body = ({ body }) => {
     let githubLink
 
 
-    const urlRegex = /(((https?:\/\/)|(www\.))[^\s\)]+)/g
-    const upToURLRegex = /^.*?(?=(((https?:\/\/)|(www\.))[^\s]+))/gms
+    const urlRegex = ""// /(((https?:\/\/)|(www\.))[^\s\)]+)/g
+    const upToURLRegex = "" // /^.*?(?=(((https?:\/\/)|(www\.))[^\s]+))/gm
 
 
     if (isBodyNotEmpty && body.includes("WorkloadNameCorrectionRef")) {
@@ -39,7 +39,7 @@ const Body = ({ body }) => {
     return (
         <div className={classes.root}>
             <p>{isBodyNotEmpty ? bodyExtract : null}</p>
-            {imgString ? <img src={imgString} className={classes.media} alt="problem-image"/> : null } {/* change alt */}
+            {imgString ? <img src={imgString} className={classes.media} alt="problem"/> : null } {/* change alt */}
             {githubLink ? <a href={githubLink} className={classes.media}>{githubLink}</a> : null}
         </div>
 
