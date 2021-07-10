@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles } from '@material-ui/core/styles';
-
+import { CheckCircleIcon, CheckCircleOutlineIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     root: {
@@ -15,101 +15,71 @@ const useStyles = makeStyles({
 
 const Body = ({ body }) => {
     const classes = useStyles();
-
-    let isBodyNotEmpty = (body !== undefined && body !== "\r\n")
-
-    // let imgString
-    // let bodyExtract
-    // let githubLink
-
-
+    // console.log("body", body)
     const discardComments = /<!--([\s\S]*?)-->/gm
     body = body.replace(discardComments, '').split(/[\s][\r\n]/gm)
-    // body = body.
-
-    //(?<=##\s).*$
-    // const upToURLRegex = /^.*?(?=(((https?://\/\/)|(www\.))[^\s]+))/gm
-    // const urlBetweenParentheses = /(?<=\()([^\)]*).(?=\))/gm
-    // const getImages = /<img([\s\S]*?)>/gm
 
 
     const urlRegexp = /(((https?:\/\/)|(www\.))[^\s\)\"\,]+)/gm
-    let imgRegexp = /^.*(\.jpg|\.gif|\.png).*$/gm
-
-    // console.log(body)
-    // if (isBodyNotEmpty) {
-
-    //     let toHeaders = body.match(/(?<=##\s).*$/gm)
-    //     // if (toHeaders !== null) {
-    //     //     console.log("toHeaders", toHeaders)
-    //     //     toHeaders.forEach(header => {
-    //     //         body = body.replace(/##.*$/gm, header)
-    //     //     })
-    //     //     // body = body.replace(/##.*$/gm, `<h3>/(?<=##\s).*$/gm</h3>`)
-    //     // }
-    //     // console.log("body", body)
-    //     let urlMatches = body.match(urlRegexp)
-
-    //     // console.log(urlMatches)
-    // }
-    // if (isBodyNotEmpty && body.includes("<img")) {
-    //     bodyExtract = body.split("<img")[0]
-    //     // console.log("bodyExtract", bodyExtract)
-    //     imgString = body.match(urlRegex)
-
-    // } 
-    // else if (isBodyNotEmpty && body.includes("https://github")) {   
-    //     githubLink = body.match(urlRegex)
-    //     bodyExtract = body.match(upToURLRegex)
-    //     console.log("githubLink", githubLink, bodyExtract)
-    // } else if (isBodyNotEmpty) {
-    //     bodyExtract = body
-    // }
-
-    // console.log("body", body)
+    const imgRegexp = /^.*(\.jpg|\.gif|\.png).*$/gm
+    const commentRegexp = /(?<=##\s).*$/gm
 
     return (
         <div className={classes.root}>
 
 
             {body.map((item, i) => {
-                if (item.match(imgRegexp) !== null) { //image
+
+                let imageReg = item.match(imgRegexp)
+                let urlReg = item.match(urlRegexp)
+                let commentReg = item.match(commentRegexp)
+
+                if (imageReg !== null) { //image
+                    
                     return (
-                        <img key={i} src={item.match(urlRegexp)} className={classes.media} alt={i}/>
+                        <img key={i} src={urlReg} className={classes.media} alt={i} />
                     )
-                } else if (item.match(urlRegexp)) {
+
+                } else if (urlReg) { //link
+
                     let splitUrl = item.split(urlRegexp)
                     return splitUrl.map((s, ind) => {
                         if (!s || s === "http://" || s === "https://") return null;
-                        // console.log("s", s)
                         return (
                             s.match(urlRegexp) ?
-                            <a key={ind} href={s} className={classes.media}>{s}</a> :
-                            <span key={ind}>{s}</span>
+                                <a key={ind} href={s} className={classes.media}>{s}</a> :
+                                <span key={ind}>{s}</span>
                         )
                     }).filter(row => row !== null)
-                } else {
-                    return (
+
+                } else { //text
+                    // console.log(item)
+
+                    if (commentReg) {
+                        return <h3 key={i}>{commentReg}</h3>
+                    } else if (item.includes("[x]")) {
+                        return (
+                            
+                                <div>
+                                <CheckCircleIcon>check_box</CheckCircleIcon>
+                                {item.split("[x]")[1]}
+                                </div>
+                            
+                        )
+                    } else {
                         <div key={i}>{item}</div>
-                    )
+                    }
+
+                    // return (
+                    //     commentReg ?
+                    //     <h3 key={i}>{commentReg}</h3> :
+
+                    //     <div key={i}>{item}</div>
+                    // )
+
                 }
             })}
 
-            {
-                // (detectImages !== null ? detectImages.map(image => {
-                //     console.log("image", image)
-                //     return (
-                //         <img src={image.match(urlRegex)} className={classes.media} />
-                //     )
-                // }) : null)
-
-
-            }
-
-            {/* <p>{isBodyNotEmpty ? body : null}</p> */}
-
-            {/* {imgString ? <img src={imgString} className={classes.media} alt="problem-aaaa"/> : null }
-            {githubLink ? <a href={githubLink} className={classes.media}>{githubLink}</a> : null} */}
         </div>
 
     )
