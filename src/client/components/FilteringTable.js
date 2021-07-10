@@ -70,7 +70,8 @@ const FilteringTable = () => {
 
     useEffect(() => {
         const fetchPRs = async () => {
-            const listOfPRs = await axios.get("https://api.github.com/repos/nodejs/node/pulls?state=all")
+            // should be dynamic!
+            const listOfPRs = await axios.get("https://api.github.com/repos/facebook/react/pulls?state=all")
             
             if (listOfPRs.status !== 200) throw Error(listOfPRs.message);
 
