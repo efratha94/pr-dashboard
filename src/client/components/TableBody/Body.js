@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles } from '@material-ui/core/styles';
-import { CheckCircleIcon, CheckCircleOutlineIcon } from '@material-ui/icons';
+// import { CheckCircleIcon, CheckCircleOutlineIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     root: {
@@ -15,24 +15,24 @@ const useStyles = makeStyles({
 
 const Body = ({ body }) => {
     const classes = useStyles();
-    // console.log("body", body)
     const discardComments = /<!--([\s\S]*?)-->/gm
     body = body.replace(discardComments, '').split(/[\s][\r\n]/gm)
-
+    // console.log(body)
 
     const urlRegexp = /(((https?:\/\/)|(www\.))[^\s\)\"\,]+)/gm
     const imgRegexp = /^.*(\.jpg|\.gif|\.png).*$/gm
-    const commentRegexp = /(?<=##\s).*$/gm
+    const headerRegexp = /(?<=##\s).*$/gm
 
     return (
         <div className={classes.root}>
 
 
             {body.map((item, i) => {
-
+                if (item === "") return;
+                // console.log(item)
                 let imageReg = item.match(imgRegexp)
                 let urlReg = item.match(urlRegexp)
-                let commentReg = item.match(commentRegexp)
+                let headerReg = item.match(headerRegexp)
 
                 if (imageReg !== null) { //image
                     
@@ -53,26 +53,28 @@ const Body = ({ body }) => {
                     }).filter(row => row !== null)
 
                 } else { //text
-                    // console.log(item)
+                    console.log(item)
 
-                    if (commentReg) {
-                        return <h3 key={i}>{commentReg}</h3>
+                    if (headerReg) {
+                        return <h3 key={i}>{headerReg}</h3>
                     } else if (item.includes("[x]")) {
                         return (
                             
-                                <div>
-                                <CheckCircleIcon>check_box</CheckCircleIcon>
+                                <div key={i}>
+                                {/* <CheckCircleIcon>check_box</CheckCircleIcon> */}
                                 {item.split("[x]")[1]}
                                 </div>
                             
                         )
                     } else {
-                        <div key={i}>{item}</div>
+                        return (
+                            <div key={i}>{item}</div>
+                        )
                     }
 
                     // return (
-                    //     commentReg ?
-                    //     <h3 key={i}>{commentReg}</h3> :
+                    //     headerReg ?
+                    //     <h3 key={i}>{headerReg}</h3> :
 
                     //     <div key={i}>{item}</div>
                     // )
