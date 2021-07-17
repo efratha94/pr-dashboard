@@ -78,9 +78,9 @@ const FilteringTable = () => {
 
             const formattedPRs = await preparePRs(listOfPRs.data)
             const formattedFiltered = await getRandomColor(formattedPRs)
-            const formattedDescs = prepareDescription(formattedFiltered)
-            // console.log("formattedFiltered", formattedFiltered)
-            setPullRequests(formattedFiltered)
+            const formattedDescs = await prepareDescription(formattedFiltered)
+            // console.log("formattedDescs", formattedDescs)
+            setPullRequests(formattedDescs)
         }
 
         fetchPRs()
