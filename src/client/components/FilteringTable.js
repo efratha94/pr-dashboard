@@ -6,6 +6,7 @@ import Columns from "./Columns"
 import preparePRs from "../services/preparePRs"
 import ColumnFilter from "./ColumnFilter"
 import getRandomColor from "../services/colours"
+import prepareDescription from "../services/prepareDescription"
 
 import Icon from '@material-ui/core/Icon'
 import MaUTable from '@material-ui/core/Table'
@@ -77,6 +78,8 @@ const FilteringTable = () => {
 
             const formattedPRs = await preparePRs(listOfPRs.data)
             const formattedFiltered = await getRandomColor(formattedPRs)
+            const formattedDescs = prepareDescription(formattedFiltered)
+            // console.log("formattedFiltered", formattedFiltered)
             setPullRequests(formattedFiltered)
         }
 

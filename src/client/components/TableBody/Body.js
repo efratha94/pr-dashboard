@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles } from '@material-ui/core/styles';
-// import { CheckCircleIcon, CheckCircleOutlineIcon } from '@material-ui/icons';
+import { CheckBox, CheckBoxOutlineBlank } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     root: {
@@ -11,7 +11,11 @@ const useStyles = makeStyles({
         maxHeight: "inherit",
         overflowWrap: "break-word"
     },
+    backticks: {
+
+    },
 });
+
 
 const Body = ({ body }) => {
     const classes = useStyles();
@@ -23,64 +27,147 @@ const Body = ({ body }) => {
     const imgRegexp = /^.*(\.jpg|\.gif|\.png).*$/gm
     const headerRegexp = /(?<=##\s).*$/gm
 
+    // console.log(body)
+
     return (
         <div className={classes.root}>
 
-
-            {body.map((item, i) => {
+            {/* {body.map((item, i) => {
                 if (item === "") return;
-                // console.log(item)
+
                 let imageReg = item.match(imgRegexp)
                 let urlReg = item.match(urlRegexp)
                 let headerReg = item.match(headerRegexp)
 
-                if (imageReg !== null) { //image
+                
+                // if (imageReg !== null) { //image
+
+                //     return (
+                //         <img key={i} src={urlReg} className={classes.media} alt={i} />
+                //     )
+
+                // }
+
+                // if (urlReg) { //link
+                //     console.log(item)
+                //     let splitUrl = item.split(urlRegexp)
                     
-                    return (
-                        <img key={i} src={urlReg} className={classes.media} alt={i} />
-                    )
+                //     return splitUrl.map((s, ind) => {
+                //         if (!s || s === "http://" || s === "https://") return null;
+                        
+                //         if (s.match(urlRegexp)){   
+                //             return  <a key={ind} href={s} className={classes.media}>{s}</a>
+                //         } else {
 
-                } else if (urlReg) { //link
-
-                    let splitUrl = item.split(urlRegexp)
-                    return splitUrl.map((s, ind) => {
-                        if (!s || s === "http://" || s === "https://") return null;
-                        return (
-                            s.match(urlRegexp) ?
-                                <a key={ind} href={s} className={classes.media}>{s}</a> :
-                                <span key={ind}>{s}</span>
-                        )
-                    }).filter(row => row !== null)
-
-                } else { //text
-                    console.log(item)
-
-                    if (headerReg) {
-                        return <h3 key={i}>{headerReg}</h3>
-                    } else if (item.includes("[x]")) {
-                        return (
+                //             if (s[0] === ")") {
+                //                 s = s.slice(1)
+                //             } else if (s[s.length-1] === "("){
+                //                 s = s.slice(0, -1)
+                //             }
                             
-                                <div key={i}>
-                                {/* <CheckCircleIcon>check_box</CheckCircleIcon> */}
-                                {item.split("[x]")[1]}
-                                </div>
+                //             if (s.includes("[x]")){
+                //                 return (
+                //                     <span key={ind}>
+                //                         <CheckBox />
+                //                         {s.split("[x]")[1]}
+                //                     </span>
+                //                 )
+                //             } else if (s.includes("[ ]")){
+                //                 return (
+                //                     <span key={ind}>
+                //                         <CheckBoxOutlineBlank />
+                //                         {s.split("[ ]")[1]}
+                //                     </span>
+                //                 )                                
+                //             } else {
+                //                 return <span key={ind}>{s}</span>
+                //             }
+                //         }
+                //     }).filter(row => row !== null)
+
+                // }
+
+                // if (headerReg) {  //text
+                //     return <h3 key={i}>{headerReg}</h3>
+                // }
+
+                // if (item.includes("[x]")) {
+                //     // console.log(item)
+                //     return (
+
+                //         <div key={i}>
+                //             <CheckBox />
+                //             {item.split("[x]")[1]}
+                //         </div>
+
+                //     )
+                // }
+
+                // if (item.includes("[ ]")) {
+                //     return (
+                //         <div key={i}>
+                //             <CheckBoxOutlineBlank />
+                //             {item.split("[ ]")[1]}
+                //         </div>
+
+                //     )
+                // } else {
+                //     return (
+                //         <div key={i}>{item}</div>
+                //     )
+                // }
+                // -------
+                // if (headerReg){
+                //     return <h3 key={i}>{headerReg}</h3>
+                // }
+
+                // if (item.includes("[x]") || item.includes("[ ]")) {
+                //     // console.log(item)
+                //     let checkbox = item.includes("[x]") ? "[x]" : "[ ]"
+                //     let splitByCheck = item.split(checkbox)[1]
+                    
+                //     console.log("item", item)
+
+                //     if (splitByCheck.match(urlRegexp)){
+                //         let splitUrl = splitByCheck.split(urlRegexp)
+                        
+                //         // {checkbox === '[x]' ? <CheckBox /> : <CheckBoxOutlineBlank />}
+                //         return splitUrl.map((s, ind) => {
+                //             if (!s || s === "http://" || s === "https://") return null;
+                //             return (
+                                
+                //                 s.match(urlRegexp) ?
+                //                     <a key={ind} href={s} className={classes.media}>{s}</a> :
+                //                     <span key={ind}>{s}</span>
+                                
+                //             )
+
                             
-                        )
-                    } else {
-                        return (
-                            <div key={i}>{item}</div>
-                        )
-                    }
+                //         }).filter(row => row !== null)
+                //     } else {
 
-                    // return (
-                    //     headerReg ?
-                    //     <h3 key={i}>{headerReg}</h3> :
+                //     }
+                // ------
+                //     let splitUrl = item.split(urlRegexp)
+                    
+                //     return splitUrl.map((s, ind) => {
+                //         if (!s || s === "http://" || s === "https://") return null;
+                        
+                //         if (s.match(urlRegexp)){   
+                //             return  <a key={ind} href={s} className={classes.media}>{s}</a>
+                // return <span key={ind}>{s}</span>
 
-                    //     <div key={i}>{item}</div>
-                    // )
+                //     return (
 
+                //         <div key={i}>
+                //             <CheckBox />
+                //             {item.split("[x]")[1]}
+                //         </div>
+
+                //     )
                 }
-            })}
+
+            })} */}
 
         </div>
 
@@ -90,15 +177,3 @@ const Body = ({ body }) => {
 export default Body
 
 
-
-/**
- * Perhaps search for:
- * <!--
-  Thanks for submitting a pull request!
-  We appreciate you spending the time to work on these changes. Please provide enough information so that others can review your pull request. The three fields below are mandatory.
-
-  Before submitting a pull request, please make sure the following is done:
- *
-
-  (?<=\#)\d{1,} for digits #12345
- */
